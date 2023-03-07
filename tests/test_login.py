@@ -1,4 +1,5 @@
 import pytest
+from utilities.data_source import test_invalid_login_data
 
 from base.webdriver_listener import WebdriverWrapper
 from assertpy import assert_that
@@ -13,9 +14,7 @@ class TestLogin(WebdriverWrapper):
         actual_header = self.driver.find_element(By.XPATH, "//h6[normalize-space()='Dashboard']").text
         assert_that("Dashboard").is_equal_to(actual_header)
 
-    @pytest.mark.parametrize("username, password, expected_error",
-                             [("ravi", "ravi123", "Invalid credentials"),
-                              ("sunny", "sunny123", "Invalid credentials")]
+    @pytest.mark.parametrize("username, password, expected_error", test_invalid_login_data
                              )
     def test_invalid_login(self, username, password, expected_error):
         self.driver.find_element(By.NAME, "username").send_keys(username)
