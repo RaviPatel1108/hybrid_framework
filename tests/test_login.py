@@ -12,7 +12,11 @@ class TestLogin(WebdriverWrapper):
         assert_that("Dashboard").is_equal_to(actual_header)
 
     def test_invalid_login(self):
-        print("Invalid login")
+        self.driver.find_element(By.NAME, "username").send_keys("Admin")
+        self.driver.find_element(By.NAME, "password").send_keys("admin12345")
+        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        actual_error = self.driver.find_element(By.XPATH, "//p[normalize-space()='Invalid credentials']").text
+        assert_that("Invalid credentials").is_equal_to(actual_error)
 
 
 class TestLoginUi(WebdriverWrapper):
