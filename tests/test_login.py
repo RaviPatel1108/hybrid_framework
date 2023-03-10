@@ -1,6 +1,5 @@
 import pytest
 from utilities.data_source import test_invalid_login_data
-
 from base.webdriver_listener import WebdriverWrapper
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
