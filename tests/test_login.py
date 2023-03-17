@@ -1,17 +1,22 @@
 import pytest
+
+from pages.dashboard_page import DashboardPage
 from utilities.data_source import test_invalid_login_data
 from base.webdriver_listener import WebdriverWrapper
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
+from pages.login_page import LoginPage
 
 
 class TestLogin(WebdriverWrapper):
     def test_valid_login(self):
-        self.driver.find_element(By.NAME, "username").send_keys("Admin")
-        self.driver.find_element(By.NAME, "password").send_keys("admin123")
-        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
-        actual_header = self.driver.find_element(By.XPATH, "//h6[normalize-space()='Dashboard']").text
-        assert_that("Dashboard").is_equal_to(actual_header)
+        login_page = LoginPage(self.driver)
+        login_page.enter_username("Admin")
+        login_page.enter_password("admin123")
+        login_page.click_on_login()
+
+        dashboard_page = DashboardPage(self.driver)
+        assert_that("Dashboard").is_equal_to(dashboard_page.get_dashboard_header)
 
     @pytest.mark.parametrize("username, password, expected_error", test_invalid_login_data
                              )
