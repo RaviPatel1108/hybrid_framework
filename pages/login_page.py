@@ -1,19 +1,21 @@
 from selenium.webdriver.common.by import By
 
+from base.webdriver_keywords import WebdriverKeywords
 
-class LoginPage:
+
+class LoginPage(WebdriverKeywords):
 
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
 
     def enter_username(self, username):
-        self.driver.find_element(By.NAME, "username").send_keys(username)
+        self.type_by_locator((By.NAME, "username"), username)
 
     def enter_password(self, password):
-        self.driver.find_element(By.NAME, "password").send_keys(password)
+        self.type_by_locator((By.NAME, "password"), password)
 
     def click_on_login(self):
-        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        self.click_by_locator((By.XPATH, "//button[@type='submit']"))
 
     @property
     def get_invalid_error_message(self):
